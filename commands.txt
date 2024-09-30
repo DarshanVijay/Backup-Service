@@ -1,0 +1,7 @@
+docker build -t backup .
+docker image save -o backup.tar backup:latest
+minikube image load backup.tar
+kubectl create secret generic google-token --from-file=credentials.json
+kubectl apply -f .\backup-data-pvc.yaml
+kubectl apply -f .\backup-cronjob.yaml  
+kubectl get pods--watch
